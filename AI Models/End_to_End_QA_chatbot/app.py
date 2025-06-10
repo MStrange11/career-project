@@ -1,36 +1,18 @@
-from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
-
 import streamlit as st
+import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
+# Load .env file
 load_dotenv()
+GOOGLE_API_KEY = os.getenv("GEMINI_API_KEY")
+genai.configure(api_key=GOOGLE_API_KEY)
 
-os.environ["OPENAI_API_KEY"]=os.getenv("OPENAI_API_KEY")
-## Langmith tracking
-os.environ["LANGCHAIN_TRACING_V2"]="true"
-os.environ["LANGCHAIN_API_KEY"]=os.getenv("LANGCHAIN_API_KEY")
+# Streamlit UI
+st.title("Gemini 1.5 Flash Chatbot")
+user_input = st.text_input("Ask something:")
 
-## Prompt Template
-prompt=ChatPromptTemplate.from_messages(
-    [
-        ("system","You are a helpful assistant. Please response to the user queries"),
-        ("user","Question:{question}")
-    ]
-)
-
-## streamlit framework
-
-st.title('Langchain Demo With OPENAI API')
-input_text=st.text_input("Search the topic u want")
-
-# openAI LLm 
-llm=ChatOpenAI(model="gpt-3.5-turbo")
-output_parser=StrOutputParser()
-chain=prompt|llm|output_parser
-
-if input_text:
-    st.write(chain.invoke({'question':input_text}))
+if user_input:
+    model = genai.GenerativeModel("models/gemini-1.5-flash")
+    response = model.generate_content(user_input)
+    st.write(response.text)
