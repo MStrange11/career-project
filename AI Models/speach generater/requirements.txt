@@ -1,0 +1,9 @@
+streamlit
+torch
+soundfile
+transformers
+google-generativeai
+Chatterbox
+streamlit-audio-recorder
+python-dotenv
+requests
