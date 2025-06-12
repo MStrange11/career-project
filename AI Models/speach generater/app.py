@@ -2,6 +2,12 @@
 
 # Streamlit Grammar Refiner + TTS App using Gemini + Chatterbox
 
+'''
+Gemini 1.5 Flash is a variant of Google's Gemini 1.5 family, optimized for speed and efficiency. 
+Compared to Gemini 1.5 Pro, which is more powerful and suited for complex reasoning or large-context tasks, Flash is lighter and faster — ideal for use cases like real-time interactions, grammar correction, or tone modulation, where latency and responsiveness matter more than deep reasoning. 
+In my app, I used Gemini 1.5 Flash because it provides high-quality language outputs quickly, which is perfect for enhancing text before sending it to the TTS engine.'''
+
+
 import os
 import io
 import base64
