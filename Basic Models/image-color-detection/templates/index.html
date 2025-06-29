@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Palette Detector</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+  <style> 
+    .color-box {
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  border: 1px solid #eee;
+  cursor: pointer;
+  border-radius: 5px; /* Rounded corners */
+}
+
+.tooltip {
+  position: absolute;
+  background-color: #333;
+  color: white;
+  padding: 5px 8px;
+  border-radius: 5px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.color-box:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Optional: Styling for the rest, adjust as needed*/ 
+body {
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f3f4f6;
+}
+/* ... other CSS ... */
+
+#colorPalette {
+  display: grid;               /* Use a grid layout for multi-column display */
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); /* Responsive columns */
+  gap: 10px;                   /* Spacing between color boxes */
+  justify-content: center;     /* Center the palette horizontally */
+  padding: 20px;               /* Optional: Add padding around the palette */
+}
+
+/* Optional: Styling improvements for color boxes */
+.color-box {
+  width: 40px;  
+  height: 40px; 
+  /* ... other styles ... */
+}
+
+.color-box .shoadow {
+  box-shadow: 0 4px 8px black !important;
+  transition: transform 0.2s !important;
+}
+
+.color-box:hover {
+  transform: scale(1.3);
+}
+
+  </style>
+</head>
+<body>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-l-8 shadow p-4 rounded-lg">
+        <!-- <div class="row"> -->
+          <div class="row"> <h2 class="text-center mb-3">Upload Image</h2>
+            <input type="file" id="imageInput" accept="image/*" class="form-control rounded">
+            <div id="uploadedImageContainer" class="mt-4 text-center">
+              <img id="uploadedImage" class="img-fluid rounded" alt="Uploaded Image">
+            </div>
+          </div> 
+          <div class="row"> <h2 class="text-center mb-3">Color Palette</h2>
+            <div id="colorPalette" class="flex flex-wrap justify-center gap-2"></div>
+          </div>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+  function processImage() {
+    const imageInput = document.getElementById('imageInput');
+    const uploadedImage = document.getElementById('uploadedImage');
+    const colorPalette = document.getElementById('colorPalette');
+
+    const file = imageInput.files[0];
+    if (!file) return;
+
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      const imageData = ctx.getImageData(0, 0, img.width, img.height).data;
+
+      colorPalette.innerHTML = ''; // Clear existing palette
+
+      const palette = new Set();
+      for (let i = 0; i < imageData.length; i += 4) {
+        palette.add(JSON.stringify([imageData[i], imageData[i + 1], imageData[i + 2]]));
+      }
+
+      palette.forEach(color => {
+        const rgb = JSON.parse(color);
+        const hexColor = rgbToHex(rgb[0], rgb[1], rgb[2]); // Function to convert to hex
+
+        const colorBox = document.createElement('div');
+        colorBox.classList.add('color-box');
+        colorBox.classList.add('shadow');
+        colorBox.style.backgroundColor = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+
+        const tooltip = document.createElement('div');
+        tooltip.classList.add('tooltip');
+        tooltip.textContent = hexColor;
+        colorBox.appendChild(tooltip);
+
+        colorBox.addEventListener('click', () => {
+          navigator.clipboard.writeText(hexColor);
+          // alert("Color code copied to clipboard: " + hexColor); // Inform user that color code is copied
+        });
+
+        colorPalette.appendChild(colorBox);
+      });
+    };
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      uploadedImage.src = e.target.result;
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  document.getElementById('imageInput').addEventListener('change', processImage);
+
+  function rgbToHex(r, g, b) { 
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  }
+
+  // Add event listener for hovering to show color code
+  const colorBoxes = document.querySelectorAll('.color-box');
+  colorBoxes.forEach(colorBox => {
+    colorBox.addEventListener('mouseenter', function() {
+      const tooltip = this.querySelector('.tooltip');
+      tooltip.style.visibility = 'visible';
+      tooltip.style.opacity = '1';
+    });
+
+    colorBox.addEventListener('mouseleave', function() {
+      const tooltip = this.querySelector('.tooltip');
+      tooltip.style.visibility = 'hidden';
+      tooltip.style.opacity = '0';
+    });
+  });
+</script>
+
+</body>
+</html>

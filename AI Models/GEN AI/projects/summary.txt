@@ -1,0 +1,39 @@
+# Symbolic and Probabilistic Reasoning under Uncertainty in AI
+
+This document details reasoning under uncertainty in Artificial Intelligence, focusing on symbolic and probabilistic approaches.
+
+## Reasoning and Logic
+
+Reasoning is the process of deriving conclusions from knowledge, facts, and beliefs.  Logic provides the language for reasoning, with rules of inference used to derive conclusions from premises.  Logic is divided into formal (symbolic) logic and informal logic (critical thinking).
+
+Three approaches to reasoning under uncertainty are presented:
+
+1.  **Symbolic Reasoning:** Includes monotonic and non-monotonic reasoning.
+    *   **Monotonic Reasoning:** Conclusions remain valid even with added information.  Advantages include consistently valid proofs; disadvantages include inability to represent real-world scenarios and handle evolving knowledge.
+    *   **Non-monotonic Reasoning:** Conclusions can be invalidated by adding new information.  Advantages include applicability to real-world systems and handling incomplete knowledge; disadvantages include the potential invalidation of old facts.
+
+2.  **Statistical Reasoning** (detailed later)
+
+3.  **Fuzzy Logic Reasoning** (not detailed)
+
+
+## Uncertainty and Probability
+
+Uncertainty arises from unreliable sources, errors, equipment faults, and environmental factors. Probability quantifies the likelihood of events, ranging from 0 (impossible) to 1 (certain).  Key concepts include mutually exclusive events, conditional probability (P(A|B)), complements (P(A')), intersections (P(A∩B)), unions (P(A∪B)), dependent and independent events.  Probability axioms are also introduced, emphasizing the additive nature of probabilities for disjoint events.
+
+## Inference using Full Joint Distribution
+
+Inference involves computing posterior probabilities from observed evidence.  The full joint probability distribution, though often too large for practical use, allows for direct calculation of marginal probabilities (by summing over relevant entries) and conditional probabilities using the formula: P(A|B) = P(A∩B) / P(B).
+
+## Probabilistic Reasoning
+
+Probabilistic reasoning uses probability theory to handle uncertainty.  It's necessary when dealing with unpredictable outcomes, large numbers of possibilities, unknown errors, etc.  Two main approaches are Bayes' rule and Bayesian statistics.  Key terms defined include probability, event, sample space, random variables, prior probability, and posterior probability.  Conditional probability is explained with examples.
+
+## Bayesian Networks
+
+Bayesian networks are probabilistic graphical models representing variables and their conditional dependencies using a directed acyclic graph (DAG). They consist of nodes (random variables) and arcs (directed links representing causal relationships).  Conditional probability tables (CPTs) define the probabilities of each node given its parents.  Bayesian networks are used for prediction, anomaly detection, diagnostics, and decision-making under uncertainty.  The joint probability distribution is expressed using conditional probabilities, enabling the computation of probabilities for complex scenarios.  An example involving a burglar alarm, neighbors' calls, burglary, and earthquakes demonstrates the construction and use of a Bayesian network to calculate specific probabilities.
+
+
+## Bayes' Theorem
+
+Bayes' theorem (Bayes' rule) calculates the probability of an event (hypothesis) given evidence. It's a core component of Bayesian inference and many modern AI systems.  The theorem is derived from the product rule and conditional probability. The terms *posterior*, *likelihood*, *prior probability*, and *marginal probability* are defined and used in examples to calculate probabilities in medical diagnosis and card games.
