@@ -1,0 +1,88 @@
+langchain offers
+
+langchain alternative:
+LlamaIndex
+Haystack
+
+Langchain parts:
+models
+prompts
+chains
+memory
+indexes
+agents
+
+
+Models:
+T2T [LLMs, chat model]
+T2V [embedding model]
+
+Prompts:
+dynamic
+role-based
+few short
+
+Chain:
+sequence
+parallel
+conditional
+lambda
+passthrough
+
+Indexes or RAG:
+Document loader
+text splitter
+vector store
+retriever
+
+Memory:
+buffer memory -> short no. of message
+buffer window memory -> last N message
+summarizer base memory -> made old summary
+custom memory -> can store more or less info
+
+
+Structured output:
+typedDict
+pydantic
+json schema
+
+Parsers:
+StrOutputParser
+JsonOutputParser
+StructuredOutputParser
+PydanticOutputParser
+
+Document loader: [LazyLoader]
+text loader
+py PDF loader
+DirectoryLoader
+web base loader
+csv loader
+
+Text splitting:
+length based
+structure base
+document structure base
+semantic meaning base
+
+Vector store:
+chroma (sql3lite)
+FAISS (pkl)
+pinecone (cloud)
+
+Retrievers:
+web
+vector 
+MMR
+
+
+Evalution:
+ragas
+langsmith
+
+Tools: (toolkits -> type of collection)
+built in
+custom [decorator, structuredTool & pydantic, BaseTool]
+
+

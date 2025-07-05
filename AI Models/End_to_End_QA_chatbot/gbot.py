@@ -3,14 +3,12 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationChain
 from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
-import os
 
 # Load environment variables
 load_dotenv()
-api_key = os.getenv("GEMINI_API_KEY")
 
 # Initialize Gemini LLM through LangChain
-llm = ChatGoogleGenerativeAI(model="models/gemini-1.5-flash", google_api_key=api_key)
+llm = ChatGoogleGenerativeAI(model="models/gemini-1.5-flash")
 memory = ConversationBufferMemory()
 conversation = ConversationChain(llm=llm, memory=memory, verbose=True)
 
