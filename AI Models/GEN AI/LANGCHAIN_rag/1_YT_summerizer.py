@@ -1,5 +1,5 @@
 import streamlit as st
-from langchain.vectorstores import FAISS
+
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled
@@ -12,13 +12,12 @@ import re
 import os
 import json
 from pathlib import Path
-from datetime import datetime
 
 load_dotenv()
 
 # Initialize models
 embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.2)
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.2)
 
 # Constants
 DB_DIR = "LANGCHAIN_rag"
@@ -173,8 +172,8 @@ def main():
             summary = get_summary(vector_store, "please summarize the video transcript")
             save_video_metadata(summery=summary)
 
-        st.write("### Video Summary:")
-        st.write(summary if summary else load_last_video_metadata().get("summery",""))
+        st.sidebar.write("### Video Summary:")
+        st.sidebar.write(summary if summary else load_last_video_metadata().get("summary",""))
 
         # Question answering
         question = st.text_input("Ask a question about the video:", load_last_video_metadata().get("questions",""))

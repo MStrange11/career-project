@@ -1,14 +1,8 @@
-from langchain_openai import OpenAIEmbeddings
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from dotenv import load_dotenv
 import json
 
 load_dotenv()
-
-# emb = OpenAIEmbeddings(
-#     model="text-embedding-3-small",
-#     dimensions=32
-# )
 
 emb = GoogleGenerativeAIEmbeddings(
     model="models/embedding-001",
