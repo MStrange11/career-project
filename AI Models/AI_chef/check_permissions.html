@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script>
+      async function checkCameraPermission() {
+        try {
+          const result = await navigator.permissions.query({ name: 'camera' });
+
+          if (result.state === 'denied') {
+            alert("Camera permission is denied. Please enable it in browser settings.");
+          } else if (result.state === 'prompt') {
+            // Try to prompt the user by opening the camera stream
+            try {
+              await navigator.mediaDevices.getUserMedia({ video: true });
+              console.log("Camera access granted.");
+            } catch (err) {
+              alert("Camera access was denied. Please allow access to use this feature.");
+            }
+          }
+        } catch (err) {
+          alert("Camera permission check failed: " + err.message);
+        }
+      }
+
+      checkCameraPermission();
+    </script>
+  </body>
+</html>

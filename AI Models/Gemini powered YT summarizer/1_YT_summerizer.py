@@ -1,5 +1,4 @@
 import streamlit as st
-from langchain.vectorstores import FAISS
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled
