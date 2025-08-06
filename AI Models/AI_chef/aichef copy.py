@@ -58,8 +58,12 @@ if load_ingredients("delete"):
 
 def identify_eatable_items(image: Image.Image = None):
     """Identifies eatable items from a PIL Image object."""
-    
-    img_format = image.format
+    if isinstance(image, Image.Image):
+        img_format = image.format
+    elif isinstance(image, st.file_uploader):
+        img_format = image.type
+        
+        
     img_buffer = BytesIO()
     
     try:
@@ -90,7 +94,7 @@ def identify_eatable_items(image: Image.Image = None):
 def find_dishes_and_ingredients(ingredients = None):
     """Finds dishes based on the given ingredients list."""
 
-    if isinstance(ingredients, list):
+    if ingredients is isinstance(list):
         ingredients = ", ".join(ingredients)
     
     # 1. Define the schema for a single dish
@@ -165,11 +169,11 @@ def take_input():
         
     if image_file:
         st.session_state.ingredients = []
-        image = Image.open(image_file)
-        st.image(image, caption="Uploaded Ingredients")
+        image_bytes = image_file.getvalue()
+        st.image(image_file, caption="Uploaded Ingredients")
         
         with st.spinner("AI Chef is identifying ingredients..."):
-            ai_response = identify_eatable_items(image)
+            ai_response = identify_eatable_items(image_bytes)
             if ai_response and "No edible items found" not in ai_response and "error" not in ai_response:
                 st.session_state.ingredients = ai_response
             else:
@@ -216,10 +220,7 @@ def process_ingredients():
     
     if st.button("Suggest a Dish", type="primary"):
         with st.spinner("Chef is thinking of a recipe..."):
-            ingredients = load_ingredients()
-            ingredients = ingredients[ "all_ingredients" if "all_ingredients" in ingredients else "initail_ingredients"]
-            
-            dishes = find_dishes_and_ingredients(ingredients).get("dishes")
+            dishes = find_dishes_and_ingredients(st.session_state.ingredients).get("dishes")
             
             if dishes:                
                 display_dishes(dishes)
